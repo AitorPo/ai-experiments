@@ -7,7 +7,7 @@ import uvicorn
 
 app = FastAPI()
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="response.log", level=logging.INFO)
+logging.basicConfig(filename="fastapi-llm-api/response.log", level=logging.INFO)
 
 
 class QABase(BaseModel):
