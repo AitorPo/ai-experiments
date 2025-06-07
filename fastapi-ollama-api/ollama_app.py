@@ -1,23 +1,17 @@
-from pydantic import BaseModel, Field
-import base64
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from ollama import chat
 from fastapi import FastAPI, File, UploadFile, Form, Depends
 import logging
 import uvicorn
+from common.models import QABase, QAAnalytics
+from common.utils import encode_uploaded_image_to_base64
 
 app = FastAPI()
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="fastapi-ollama-api/response.log", level=logging.INFO)
-
-
-class QABase(BaseModel):
-    question: str = Field(description="The question to be answered")
-    answer: str = Field(description="The answer to the question")
-
-
-class QAAnalytics(QABase):
-    thought: str = Field(description="The thought process of the model")
-    topic: str = Field(description="The topic of the question")
 
 
 class QuestionPayload:
@@ -38,10 +32,7 @@ def parse_form_data(
     return QuestionPayload(question=question, image=image)
 
 
-def encode_uploaded_image_to_base64(image_file: UploadFile) -> str:
-    """Convert uploaded file to base64 string"""
-    image_data = image_file.file.read()
-    return base64.b64encode(image_data).decode("utf-8")
+
 
 
 def ollama_llm_response(question: str, encode_image: str):
