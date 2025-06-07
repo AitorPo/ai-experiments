@@ -15,7 +15,6 @@ from ollama_app import (
     QAAnalytics,
     QuestionPayload,
     parse_form_data,
-    encode_image_to_base64,
     encode_uploaded_image_to_base64,
     ollama_llm_response,
     log_response,
@@ -79,27 +78,6 @@ class TestQuestionPayload:
 
 class TestEncodingFunctions:
     """Test image encoding functions"""
-    
-    def test_encode_image_to_base64(self):
-        """Test encoding image file to base64"""
-        # Create a temporary image file
-        test_data = b"fake image data"
-        expected_b64 = base64.b64encode(test_data).decode("utf-8")
-        
-        with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-            tmp_file.write(test_data)
-            tmp_file.flush()
-            
-            try:
-                result = encode_image_to_base64(tmp_file.name)
-                assert result == expected_b64
-            finally:
-                os.unlink(tmp_file.name)
-    
-    def test_encode_image_to_base64_file_not_found(self):
-        """Test encoding with non-existent file"""
-        with pytest.raises(FileNotFoundError):
-            encode_image_to_base64("non_existent_file.jpg")
     
     def test_encode_uploaded_image_to_base64(self):
         """Test encoding uploaded file to base64"""
