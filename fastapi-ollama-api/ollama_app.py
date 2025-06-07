@@ -38,11 +38,6 @@ def parse_form_data(
     return QuestionPayload(question=question, image=image)
 
 
-def encode_image_to_base64(image_path: str) -> str:
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode("utf-8")
-
-
 def encode_uploaded_image_to_base64(image_file: UploadFile) -> str:
     """Convert uploaded file to base64 string"""
     image_data = image_file.file.read()
