@@ -1,0 +1,33 @@
+ERROR:fastapi:Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
+ERROR:fastapi:Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
+ERROR:fastapi:Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
+ERROR:fastapi:Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
+INFO:ollama_app:Received question: What is this image?
+INFO:ollama_app:Received image: equation.png
+INFO:httpx:HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:ollama_app:Question: What is this image?
+INFO:ollama_app:Answer: The image shows the derivative of a function, f(x), evaluated at x = x1.
+INFO:ollama_app:Thought: The formula is for calculating the derivative of a function f(x) at a point x = x1. 
+INFO:ollama_app:Topic: Calculus - Derivatives
+INFO:ollama_app:Received payload: QuestionPayload(question='What is this image?', image='equation.png')
+INFO:httpx:HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:ollama_app:Question: What is this image?
+INFO:ollama_app:Answer: The image shows the definition of the derivative of a function, f(x), at a point x1. Specifically, it represents the slope of the tangent line to the graph of f(x) at the point x1.
+INFO:ollama_app:Thought: The equation `x2 = x1 - (f(x1) / f'(x1))` is the slope-point form of the derivative of a function f(x). It's commonly used in calculus to find the derivative of a function at a specific point.
+INFO:ollama_app:Topic: Calculus - Derivatives

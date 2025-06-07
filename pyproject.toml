@@ -1,0 +1,14 @@
+[project]
+name = "ai-experiments"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12.2"
+dependencies = [
+    "fastapi>=0.115.12",
+    "httpx>=0.28.1",
+    "ollama>=0.5.1",
+    "pydantic>=2.11.5",
+    "python-multipart>=0.0.20",
+    "uvicorn>=0.34.3",
+]
