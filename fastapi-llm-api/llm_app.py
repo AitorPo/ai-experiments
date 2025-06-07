@@ -2,34 +2,38 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ollama import chat
+import uvicorn
 from fastapi import FastAPI, Depends
 import logging
-import uvicorn
-from common.models import QABase, QAAnalytics
+from pydantic import BaseModel
+from common.models import QAAnalytics, QuestionRequest
 from common.utils import encode_uploaded_image_to_base64, QuestionPayload, parse_form_data
+from dotenv import load_dotenv
+from openai import OpenAI
+
 
 app = FastAPI()
+load_dotenv()
+client = OpenAI()
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="fastapi-ollama-api/response.log", level=logging.INFO)
+logging.basicConfig(filename="fastapi-llm-api/response.log", level=logging.INFO)
 
 
-def ollama_llm_response(question: str, encode_image: str):
-    response = chat(
+def llm_response(question: str):
+    response = client.beta.chat.completions.parse(
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {
                 "role": "user",
                 "content": f"Answer this question: {question}",
-                "images": [encode_image],
             },
         ],
-        model="gemma3:latest",
-        format=QAAnalytics.model_json_schema(),
+        model="gpt-4o-mini",
+        response_format=QAAnalytics,
     )
     return response
-    
-    
+
+
 def log_response(logger: logging.Logger, response: QAAnalytics):
     logger.info(f"Question: {response.question}")
     logger.info(f"Answer: {response.answer}")
@@ -37,22 +41,19 @@ def log_response(logger: logging.Logger, response: QAAnalytics):
     logger.info(f"Topic: {response.topic}")
     
     
-@app.post("/api/question", response_model=QABase)
-def llm_qa_response(payload: QuestionPayload = Depends(parse_form_data)):
-    logger.info(f"Received payload: {payload}")
-    
-    # Convert uploaded image to base64
-    encoded_image = encode_uploaded_image_to_base64(payload.image)
-    
+@app.post("/api/question", response_model=QAAnalytics)
+def llm_qa_response(request: QuestionRequest):
+    logger.info(f"Received question: {request.question}")
     # Get response from ollama
-    response = ollama_llm_response(payload.question, encoded_image)
-    
+    response = llm_response(question=request.question)
+    logger.info(f"Response: {response}")
     # Parse the response content
-    qa_instance = QAAnalytics.model_validate_json(response['message']['content'])
+    qa_instance = response.choices[0].message.parsed
     
     log_response(logger, qa_instance)
     return qa_instance
 
-    
+
 if __name__ == "__main__":
-    uvicorn.run("ollama_app:app", host="0.0.0.0", port=8888, reload=True)
+    uvicorn.run("llm_app:app", host="0.0.0.0", port=8888, reload=True)
+    

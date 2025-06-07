@@ -16,3 +16,9 @@ INFO:ollama_app:Question: What is this image?
 INFO:ollama_app:Answer: The image is Charmander, a Fire-type Pokémon from the Pokémon franchise.
 INFO:ollama_app:Thought: The character in the image has a round orange body, a yellow belly, a tail with a flame, and a generally cute appearance. Given the context of Pokémon, this is likely Charmander.
 INFO:ollama_app:Topic: Pokémon
+INFO:ollama_app:Received payload: QuestionPayload(question='What is this image?', image='reduced.png')
+INFO:httpx:HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:ollama_app:Question: What is this image?
+INFO:ollama_app:Answer: This is Charmander, a Fire-type Pokémon from the Pokémon franchise.
+INFO:ollama_app:Thought: The image is of a small, orange Pokémon with a yellow belly and a flame on its tail. Based on its appearance and the fact that it's an image from a popular anime, I identify it as Charmander.
+INFO:ollama_app:Topic: Pokémon
