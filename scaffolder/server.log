@@ -1,0 +1,15 @@
+Starting FastAPI server on 0.0.0.0:8000...
+INFO:     Started server process [21675]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+Registered handlers: [<class 'mcp.types.PingRequest'>, <class 'mcp.types.ListToolsRequest'>, <class 'mcp.types.CallToolRequest'>]
+Checking handler: <class 'mcp.types.PingRequest'> (type: <class 'pydantic._internal._model_construction.ModelMetaclass'>)
+Checking handler: <class 'mcp.types.ListToolsRequest'> (type: <class 'pydantic._internal._model_construction.ModelMetaclass'>)
+Checking handler: <class 'mcp.types.CallToolRequest'> (type: <class 'pydantic._internal._model_construction.ModelMetaclass'>)
+No tools/list handler found
+INFO:     127.0.0.1:54859 - "GET /tools HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [21675]

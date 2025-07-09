@@ -1,0 +1,1 @@
+"""Driven ports (output interfaces)."""

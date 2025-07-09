@@ -1,0 +1,29 @@
+# Twitter Clone - Hexagonal Architecture
+
+## Domain Rules
+- Users can create posts (tweets) with text, images, and links
+- Posts have a 280 character limit for text content
+- Users can follow/unfollow other users
+- Users can like, retweet, and reply to posts
+- Posts can be public or private
+- Users have profiles with bio, avatar, and statistics
+- Real-time notifications for interactions
+- Timeline shows posts from followed users chronologically
+
+## Architecture Patterns
+- Follow hexagonal architecture with clean separation of concerns
+- Use async/await for all I/O operations
+- Implement CQRS pattern for read/write operations
+- Use domain events for cross-cutting concerns
+- Apply repository pattern for data access
+- Implement proper error handling and validation
+- Use DTOs for API boundaries
+- Apply dependency injection throughout
+
+## Code Quality
+- Use type hints everywhere
+- Follow Django and Python best practices
+- Write comprehensive tests for all layers
+- Use proper logging and monitoring
+- Implement proper security measures
+- Follow REST API design principles

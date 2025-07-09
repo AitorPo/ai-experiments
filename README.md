@@ -1,0 +1,1 @@
+OPEN_AI_URL=https://api.openai.com/v1

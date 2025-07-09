@@ -1,0 +1,206 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Hexagonal Architecture Patterns - Django Project
+
+## Overview
+This project implements a Clean Architecture approach following hexagonal architecture principles with clear separation of concerns across four main layers.
+
+## Architecture Layers
+
+### 1. **Domain Layer** (`domain/`)
+- **Purpose**: Contains business entities and domain logic
+- **Dependencies**: None (pure business logic)
+- **Pattern**: Entity-based design with Pydantic models
+
+**Structure:**
+```
+domain/
+├── entities/
+│   ├── business_notifications.py
+│   ├── restaurant.py
+│   └── city.py
+└── __init__.py
+```
+
+**Key Patterns:**
+- **Entities**: Use Pydantic models with `ToDictMixin` for serialization
+- **Inheritance**: Base classes for common functionality (`BaseBusinessNotification`)
+- **Composition**: Complex entities composed of simpler ones
+- **Value Objects**: Immutable data structures for domain concepts
+
+**Example Entity Pattern:**
+```python
+class BaseBusinessNotification(ToDictMixin):
+    image: str
+    title: str
+    content: str
+    has_been_notified: bool = False
+    created: Optional[datetime] = None
+    id: Optional[int] = None
+```
+
+### 2. **Application Layer** (`application/`)
+- **Purpose**: Orchestrates business use cases and manages ports
+- **Dependencies**: Domain layer only
+- **Pattern**: Service-oriented with port interfaces
+
+**Structure:**
+```
+application/
+├── services/
+│   ├── business_notifications/
+│   ├── restaurant_service.py
+│   └── users_service.py
+├── ports/
+│   ├── driving/    # Input ports (API interfaces)
+│   └── driven/     # Output ports (Repository interfaces)
+└── __init__.py
+```
+
+**Key Patterns:**
+
+#### Services Pattern:
+- **Dependency Injection**: Services receive port implementations via constructor
+- **Interface Segregation**: Services implement specific driving ports
+- **Use Case Orchestration**: Coordinate domain logic and external dependencies
+
+#### Port Pattern:
+- **Driving Ports**: Interfaces that define what the application can do
+- **Driven Ports**: Interfaces that define what the application needs
+- **Abstract Base Classes**: All ports are ABC with `@abstractmethod`
+
+**Example Service Pattern:**
+```python
+class AdsNotificationService(AdsServicePort):
+    def __init__(self, db_adapter: AdDBRepositoryPort):
+        self.db_adapter = db_adapter
+    
+    def retrieve(self, pk: int) -> Ad:
+        return self.db_adapter.retrieve(pk)
+```
+
+### 3. **Driven Layer** (`driven/`)
+- **Purpose**: Implements outbound adapters (external systems)
+- **Dependencies**: Application ports, external systems
+- **Pattern**: Adapter pattern for external integrations
+
+**Structure:**
+```
+driven/
+├── db/           # Database adapters
+├── google/       # Google API adapters
+├── smtp/         # Email service adapters
+├── apple/        # Apple service adapters
+└── oauth/        # OAuth service adapters
+```
+
+**Key Patterns:**
+
+#### Database Adapter Pattern:
+- **Repository Implementation**: Concrete implementations of driven ports
+- **Data Mapping**: DBO ↔ Entity transformation via mappers
+- **Query Optimization**: Efficient database queries with proper prefetch/select
+- **Django Integration**: Leverages Django ORM while maintaining clean boundaries
+
+**Database Structure Pattern:**
+```
+db/{domain}/
+├── adapter.py    # Repository implementation
+├── mapper.py     # DBO ↔ Entity mapping
+├── models.py     # Django models (DBOs)
+├── admin.py      # Django admin interface
+└── migrations/   # Database migrations
+```
+
+#### External Service Adapter Pattern:
+- **Third-party Integration**: Google, Apple, OAuth services
+- **Protocol Implementation**: HTTP clients, API wrappers
+- **Error Handling**: Service-specific error handling and retry logic
+
+### 4. **Driving Layer** (`driving/`)
+- **Purpose**: Implements inbound adapters (user interfaces)
+- **Dependencies**: Application layer, web framework
+- **Pattern**: MVC with clean API design
+
+**Structure:**
+```
+driving/
+└── api/
+    └── v1/
+        ├── {domain}/
+        │   ├── adapter.py    # API controllers
+        │   ├── mapper.py     # DTO ↔ Entity mapping
+        │   ├── models.py     # API DTOs
+        │   └── urls.py       # URL routing
+        └── urls.py
+```
+
+**Key Patterns:**
+
+#### API Adapter Pattern:
+- **Service Mapper**: Dictionary-based service resolution
+- **API Mapper**: DTO transformation layer
+- **Decorator Chain**: Consistent decorator application
+- **Response Standardization**: Uniform response formatting
+
+#### Data Flow Pattern:
+1. **Request → Validation → Service Call**
+2. **Entity → DTO → JSON Response**
+3. **Error Handling → Translated Messages**
+
+## Cross-Cutting Patterns
+
+### Dependency Injection
+- **Constructor Injection**: Services receive dependencies via constructor
+- **Factory Pattern**: Service mappers for runtime resolution
+- **Interface Dependency**: All dependencies are interface-based
+
+### Mapping Strategy
+- **Bidirectional Mapping**: Entity ↔ DTO, Entity ↔ DBO
+- **Reduced DTOs**: Optimized representations for list views
+- **Type Safety**: Strong typing across all mapping operations
+
+### Error Handling
+- **Layer-Specific Handling**: Each layer handles its own errors
+- **Exception Translation**: Technical exceptions → Business exceptions
+- **Internationalization**: All user messages use Django's translation system
+
+### Testing Strategy
+- **Port Mocking**: Easy mocking through interfaces
+- **Isolated Testing**: Each layer can be tested independently
+- **Integration Testing**: Full flow testing through driving adapters
+
+## Benefits Achieved
+
+1. **Testability**: Clear boundaries enable comprehensive testing
+2. **Maintainability**: Changes in one layer don't affect others
+3. **Flexibility**: Easy to swap implementations
+4. **Scalability**: Clean separation supports team scaling
+5. **Framework Independence**: Business logic isolated from Django specifics
+
+## Implementation Guidelines
+
+### When Adding New Features:
+1. **Start with Domain**: Define entities and business rules
+2. **Define Ports**: Create driving and driven port interfaces
+3. **Implement Service**: Create application service with business logic
+4. **Add Adapters**: Implement driven adapters for external dependencies
+5. **Create API**: Add driving adapters for user interfaces
+
+### Naming Conventions:
+- **Entities**: Plain names (`Ad`, `Restaurant`)
+- **DTOs**: Suffix with `DTO` (`AdDTO`, `RestaurantDTO`)
+- **DBOs**: Suffix with `DBO` (`AdNotificationDBO`)
+- **Ports**: Suffix with `Port` (`AdDBRepositoryPort`)
+- **Services**: Suffix with `Service` (`AdsNotificationService`)
+- **Adapters**: Suffix with `Adapter` (`AdDBRepositoryAdapter`)
+
+This architecture ensures clean separation of concerns, high testability, and maintainable code that can evolve independently across layers.
