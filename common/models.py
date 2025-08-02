@@ -11,4 +11,4 @@ class QABase(QuestionRequest):
 
 class QAAnalytics(QABase):
     thought: str = Field(description="The thought process of the model")
-    topic: str = Field(description="The topic of the question") 
+    topic: str = Field(description="The topic of the question")

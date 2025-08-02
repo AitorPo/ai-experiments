@@ -28,3 +28,26 @@ INFO:ollama_app:Question: What is this image?
 INFO:ollama_app:Answer: This is Charmander, a Fire-type Pokémon from the Pokémon franchise!
 INFO:ollama_app:Thought: The image shows a small, orange Pokémon with a yellow belly and a fiery tail. It’s a recognizable Pokémon!
 INFO:ollama_app:Topic: Pokemon
+INFO:ollama_app:Received payload: QuestionPayload(question='What is this image?', image='reduced.png')
+INFO:ollama_app:Received payload: QuestionPayload(question='What is this image?', image='reduced.png')
+INFO:httpx:HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:ollama_app:Question: What is this image?
+INFO:ollama_app:Answer: This is Charmander, a Fire-type Pokémon from the Pokémon franchise.
+INFO:ollama_app:Thought: The image shows a small, orange Pokémon with a yellow belly and a flame on its tail. This is a key characteristic of Charmander.
+INFO:ollama_app:Topic: Pokémon
+INFO:watchfiles.main:1 change detected
+INFO:watchfiles.main:1 change detected
+INFO:watchfiles.main:2 changes detected
+INFO:watchfiles.main:3 changes detected
+INFO:ollama_app:Received payload: QuestionPayload(question='What is this image?', image='reduced.png')
+INFO:httpx:HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:ollama_app:Question: What is this image?
+INFO:ollama_app:Answer: This is Charmander, a Fire-type Pokémon from the Pokémon franchise.
+INFO:ollama_app:Thought: I recognize this as a classic Pokémon! It’s Charmander, a starter Pokémon known for its fiery tail.
+INFO:ollama_app:Topic: Pokemon
+INFO:ollama_app:Received payload: QuestionPayload(question='What is this image?', image='reduced.png')
+INFO:httpx:HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+INFO:ollama_app:Question: What is this image?
+INFO:ollama_app:Answer: This is Charmander, a Fire-type Pokémon from the Pokémon franchise!
+INFO:ollama_app:Thought: I've identified the image as Charmander based on its orange color, yellow belly, flame tail, and overall appearance.
+INFO:ollama_app:Topic: Pokémon

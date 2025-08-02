@@ -11,7 +11,7 @@ from common.utils import encode_uploaded_image_to_base64, QuestionPayload, parse
 
 app = FastAPI()
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="fastapi-ollama-api/response.log", level=logging.INFO)
+logging.basicConfig(filename="response.log", level=logging.INFO)
 
 
 def ollama_llm_response(question: str, encode_image: str):
