@@ -24,6 +24,7 @@ dependencies = [
     "langchain-community>=0.3.27",
     "sentence-transformers>=5.0.0",
     "faiss-cpu>=1.11.0.post1",
+    "langchain-huggingface>=0.3.1",
 ]
 
 [tool.uv.workspace]
